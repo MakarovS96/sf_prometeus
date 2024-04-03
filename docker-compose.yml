@@ -1,4 +1,4 @@
-version: '3.2'
+version: '>=3.2'
 services:
   prometheus:
     image: prom/prometheus:latest
@@ -45,3 +45,15 @@ services:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
     ports:
       - 0.0.0.0:3000:3000
+
+  alertmanager:
+    image: prom/alertmanager
+    ports:
+      - 0.0.0.0:9093:9093
+    volumes:
+      - ./alertmanager/:/etc/alertmanager/
+    restart: always
+    command:
+      - --config.file=/etc/alertmanager/config.yml
+      - --storage.path=/etc/alertmanager/data
+
